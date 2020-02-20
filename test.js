@@ -39,6 +39,10 @@ test('list define', t => {
     t.deepEqual(scheme("(define tot '(+ a b))"), ['+','a','b'])
 })
 
+test('list read', t => {
+    t.deepEqual(scheme("tot"), ['+','a','b'])
+})
+
 test('list eval', t => {
     t.is(scheme("(define a 5)"), 5)
     t.is(scheme("(define b 4)"), 4)

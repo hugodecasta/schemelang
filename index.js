@@ -133,7 +133,7 @@ function handle(statement) {
         if(!(statement in base)) {
             throw 'Base exception: "'+statement+'" not found'
         }
-        return handle(base[statement])
+        return base[statement]
     } else if (typeof statement === 'object') {
         let meth = statement[0]
         let inner_args = statement.slice(1)
