@@ -33,3 +33,14 @@ test('list cdr', t => {
 test('list cadr', t => {
     t.is(scheme("(cadr '(a b c d))"), 'b')
 })
+
+test('list define', t => {
+    scheme('(clear)')
+    t.deepEqual(scheme("(define tot '(+ a b))"), ['+','a','b'])
+})
+
+test('list eval', t => {
+    t.is(scheme("(define a 5)"), 5)
+    t.is(scheme("(define b 4)"), 4)
+    t.is(scheme("(eval tot)"),9)
+})
