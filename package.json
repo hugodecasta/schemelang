@@ -1,6 +1,6 @@
 {
-  "name": "scheme_js",
-  "version": "1.0.0",
+  "name": "schemelang",
+  "version": "0.1.0",
   "description": "Scheme nodejs interpreter",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,6 @@
   "homepage": "https://github.com/hugodecasta/scheme_js#readme",
   "devDependencies": {
     "ava": "^3.3.0"
-  }
+  },
+  "dependencies": {}
 }
