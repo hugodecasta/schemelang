@@ -1,6 +1,6 @@
 {
   "name": "schemelang",
-  "version": "0.1.1",
+  "version": "1.0.1",
   "description": "Scheme nodejs interpreter",
   "main": "index.js",
   "scripts": {
