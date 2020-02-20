@@ -1,0 +1,28 @@
+{
+  "name": "scheme_js",
+  "version": "1.0.0",
+  "description": "Scheme nodejs interpreter",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugodecasta/scheme_js.git"
+  },
+  "keywords": [
+    "scheme",
+    "interpreter",
+    "lisp",
+    "language"
+  ],
+  "author": "Hugo Castaneda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hugodecasta/scheme_js/issues"
+  },
+  "homepage": "https://github.com/hugodecasta/scheme_js#readme",
+  "devDependencies": {
+    "ava": "^3.3.0"
+  }
+}
