@@ -21,3 +21,15 @@ test('lambda', t => {
 test('exec lambda', t => {
     t.is(scheme('(func 2 3)'), 5)
 })
+
+test('list car', t => {
+    t.is(scheme("(car '(a b c d))"), "a")
+})
+
+test('list cdr', t => {
+    t.deepEqual(scheme("(cdr '(a b c d))"), ['b','c','d'])
+})
+
+test('list cadr', t => {
+    t.is(scheme("(cadr '(a b c d))"), 'b')
+})

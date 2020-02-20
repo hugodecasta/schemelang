@@ -13,9 +13,6 @@ let methods = {
             return base[name] = ret
         }
     },
-    'list':function(args) {
-        return args
-    },
     'eval':function(args) {
         let value = args[0]
         while(typeof value == 'object' || typeof value == 'string') {
@@ -57,6 +54,7 @@ let methods = {
             return handle(no)
         }
     },
+    // -----------------------------------------------------
     '>':function(args) {
         return handle(args[0]) > handle(args[1])
     },
@@ -88,10 +86,30 @@ let methods = {
         }
         return false
     },
+    // -----------------------------------------------------
+    'list':function(args) {
+        return args
+    },
+    'car':function(args) {
+        let list = handle(args[0])
+        return list[0]
+    },
+    'cdr':function(args) {
+        let list = handle(args[0])
+        return list.slice(1)
+    },
+    'cadr':function(args) {
+        return handle(['car',['cdr',args[0]]])
+    },
+    'cddr':function(args) {
+        return handle(['cdr',['cdr',args[0]]])
+    },
+    // -----------------------------------------------------
     'clear':function() {
         base = {}
         return true
     },
+    // -----------------------------------------------------
     'lambda':function(args) {
         let params = args[0]
         let prog = args[1]
@@ -156,5 +174,3 @@ function compile(str) {
 module.exports = exports.compile = compile
 
 let scheme = compile
-
-scheme('(define func (lambda (a b) (/ a b)))')
