@@ -100,5 +100,23 @@ test('specific scheme env', t => {
     t.is(sc2.interpret("a"), 5)
     t.is(sc3.interpret("(define a 7)"), 7)
     t.is(sc3.interpret("a"), 7)
+})
 
+test('and', t => {
+    t.is(scheme('(and #t #t #f)'),false)
+    t.is(scheme('(and #f #t #t)'),false)
+    t.is(scheme('(and #t #t #t)'),true)
+    t.is(scheme('(and #t #t 5)'),5)
+    t.is(scheme('(and 5 #t 7)'),7)
+    t.is(scheme('(and 5 #f 7)'),false)
+    t.deepEqual(scheme("(and 5 #t '(a b))"),['list','a','b'])
+})
+
+test('or', t => {
+    t.is(scheme('(or #f #f #t)'),true)
+    t.is(scheme('(or #f #t #f)'),true)
+    t.is(scheme('(or #f 7 #f)'),7)
+    t.is(scheme('(or 5 7 #f)'),5)
+    t.is(scheme('(or #f #f #f)'),false)
+    t.deepEqual(scheme("(or '(a b) #f #f)"),['list','a','b'])
 })

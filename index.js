@@ -116,24 +116,36 @@ let methods = {
         return handle(args[0]) == handle(args[1])
     },
     'and':function(args) {
-        for(let arg of args) {
-            if(!handle(arg)) {
-                return false
-            }
+        if(args.length == 0) {
+            return true
         }
-        return true
+        let car = handle(args[0])
+        let cdr = args.slice(1)
+        if(car === false) {
+            return false
+        }
+        if(cdr.length == 0) {
+            return car
+        }
+        return handle(['and'].concat(cdr))
     },
     'or':function(args) {
-        for(let arg of args) {
-            if(handle(arg)) {
-                return true
-            }
+        if(args.length == 0) {
+            return false
         }
-        return false
+        let car = handle(args[0])
+        let cdr = args.slice(1)
+        if(car !== false) {
+            return car
+        }
+        return handle(['or'].concat(cdr))
     },
     'not':function(args) {
-        let value = handle(args[0])
-        return !value
+        let car = handle(args[0])
+        if(car !== false) {
+            return false
+        }
+        return !car
     },
     // -----------------------------------------------------
     'null?':function(args) {
