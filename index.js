@@ -161,6 +161,8 @@ let methods = {
 
 // -----------------------------------
 
+// -----------------
+
 function handle(statement) {
 
     if(typeof statement === 'string') {
@@ -176,7 +178,9 @@ function handle(statement) {
     return statement
 }
 
-function compile(str) {
+// -----------------
+
+function parse(str) {
 
     let replacer = str
         .replace(/\'\(\)/g,'(abslist)')
@@ -193,8 +197,18 @@ function compile(str) {
         })
 
     let obj_command = JSON.parse(replacer)
-
-    return handle(obj_command)
+    return obj_command
 }
 
-module.exports = exports.compile = compile
+// -----------------
+
+function interpret(str) {
+    let array = parse(str)
+    return handle(array)
+}
+
+// -----------------------------------
+
+exports.interpret = interpret
+exports.parse = parse
+exports.handle = handle

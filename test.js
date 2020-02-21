@@ -1,5 +1,17 @@
 const test = require('ava')
-const scheme = require('./index.js')
+
+const schemelang = require('./index.js')
+
+const scheme = schemelang.interpret
+const parser = schemelang.parse
+const handle = schemelang.handle
+ 
+test('parse', t => {
+    t.deepEqual(parser('(define a 5)'), ['define','a',5])
+})
+test('handle', t => {
+    t.deepEqual(handle(['define','l',['abslist','a','b','c']]), ['list','a','b','c'])
+})
  
 test('define', t => {
     scheme('(clear)')
