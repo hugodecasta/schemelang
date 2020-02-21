@@ -1,4 +1,4 @@
-# scheme_js
+# Scheme Lang (schemelang)
 NodeJS Scheme language interpreter
 
 ## usage
