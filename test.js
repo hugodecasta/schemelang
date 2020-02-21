@@ -1,6 +1,7 @@
 const test = require('ava')
 
-const schemelang = require('./index.js')
+const SchemeLang = require('./index.js')
+let schemelang = new SchemeLang()
 
 const scheme = schemelang.interpret
 const parser = schemelang.parse
@@ -88,4 +89,16 @@ test('let', t => {
     scheme("(define func (lambda (n) (let ((a 5)) (- a n))))")
     t.is(scheme("(func 5)"), 0)
     t.is(scheme("(func (- 5))"), 10)
+})
+
+test('specific scheme env', t => {
+    let sc1 = new SchemeLang({'a':3})
+    let sc2 = new SchemeLang({'a':5})
+    let sc3 = new SchemeLang()
+
+    t.is(sc1.interpret("a"), 3)
+    t.is(sc2.interpret("a"), 5)
+    t.is(sc3.interpret("(define a 7)"), 7)
+    t.is(sc3.interpret("a"), 7)
+
 })

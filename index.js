@@ -24,6 +24,10 @@ class ParserError extends SchemeError {
     }
 }
 
+// -------------- LET's WRAPP IT
+
+let schemelang = (function(given_base={}){
+
 // ------------------------------------------ INNER METHODS
 
 function get_list(statement) {
@@ -33,7 +37,7 @@ function get_list(statement) {
 
 // ------------------------------------------ SCHEME BASE
 
-let base = {}
+let base = given_base
 let methods = {
     'define':function(args) {
         let name = args[0]
@@ -268,6 +272,12 @@ function interpret(str) {
 
 // ------------------------------------------ EXPORTS
 
-exports.interpret = interpret
-exports.parse = parse
-exports.handle = handle
+this.interpret = interpret
+this.parse = parse
+this.handle = handle
+
+})
+
+// ------------------------------------------ MODULE EXPORTS
+
+module.exports = schemelang
