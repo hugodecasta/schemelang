@@ -82,3 +82,10 @@ test('negate', t => {
     t.is(scheme("b"), false)
     t.is(scheme("(not b)"), true)
 })
+
+test('let', t => {
+    scheme('(clear)')
+    scheme("(define func (lambda (n) (let ((a 5)) (- a n))))")
+    t.is(scheme("(func 5)"), 0)
+    t.is(scheme("(func (- 5))"), 10)
+})

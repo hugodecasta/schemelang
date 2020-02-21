@@ -63,6 +63,9 @@ let methods = {
     },
     '-':function(args) {
         let end_args = args.map(arg=>handle(arg))
+        if(end_args.length == 1) {
+            return -end_args[0]
+        }
         return end_args.reduce(function(acc,cur) {
             return acc - cur
         })
@@ -75,6 +78,9 @@ let methods = {
     },
     '/':function(args) {
         let end_args = args.map(arg=>handle(arg))
+        if(end_args.length == 1) {
+            return 1/end_args[0]
+        }
         return end_args.reduce(function(acc,cur) {
             return acc / cur
         })
@@ -185,6 +191,18 @@ let methods = {
             base = JSON.parse(old_base)
             return ret
         }
+    },
+    'let':function(args) {
+        let params = args[0]
+        let prog = args[1]
+        let old_base = JSON.stringify(base)
+        for(let param of params) {
+            handle(['define',param[0],param[1]])
+        }
+        let ret = handle(prog)
+        base = JSON.parse(old_base)
+        return ret
+
     },
     'exit':function(args) {
         process.exit(0)
