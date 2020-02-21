@@ -73,3 +73,12 @@ test('cons', t => {
     t.deepEqual(scheme("(cons (car l1) (cdr l2))"), ['list','a',2,3,4])
     t.deepEqual(scheme("(cons '(g h) (cdr l2))"), ['list',['list','g','h'],2,3,4])
 })
+
+test('negate', t => {
+    scheme('(clear)')
+    scheme("(define a #t)")
+    scheme("(define b #f)")
+    t.is(scheme("a"), true)
+    t.is(scheme("b"), false)
+    t.is(scheme("(not b)"), true)
+})

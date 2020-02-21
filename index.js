@@ -93,6 +93,10 @@ let methods = {
         }
         return false
     },
+    'not':function(args) {
+        let value = handle(args[0])
+        return !value
+    },
     // -----------------------------------------------------
     'null?':function(args) {
         let list = get_list(args[0])
@@ -183,17 +187,19 @@ function handle(statement) {
 function parse(str) {
 
     let replacer = str
+        .replace(/(\#t)/g,'true')
+        .replace(/(\#f)/g,'false')
         .replace(/\'\(\)/g,'(abslist)')
         .replace(/\'\(/g,'(abslist ')
         .replace(/\(/g,'[')
         .replace(/\)/g,']')
         .replace(/\s/g,',')
         .replace(/(\w+\?|\w+|[-!$%^&*()_+|~=`{}:";'<>?.\/])/g,function(match) {
-            let ival = parseInt(match)
-            if(isNaN(ival)) {
+            try {
+                return JSON.parse(match)
+            } catch(e) {
                 return '"'+match+'"'
             }
-            return ival
         })
 
     let obj_command = JSON.parse(replacer)
