@@ -18,9 +18,9 @@ class ExistenceError extends SchemeError {
 }
 
 class ParserError extends SchemeError {
-    constructor(from) {
-        super(`Cannot handle command "${from}".`)
-        this.data = {from}
+    constructor(command) {
+        super(`Cannot parse command "${command}".`)
+        this.data = {command}
     }
 }
 
@@ -233,8 +233,12 @@ function parse(str) {
             }
         })
 
-    let obj_command = JSON.parse(replacer)
-    return obj_command
+    try {
+        let obj_command = JSON.parse(replacer)
+        return obj_command
+    } catch(err) {
+        throw new ParserError(str)
+    }
 }
 
 // -----------------
