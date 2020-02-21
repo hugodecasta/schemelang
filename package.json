@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/hugodecasta/scheme_js#readme",
   "devDependencies": {
-    "ava": "^3.3.0"
+    "ava": "^3.3.0",
+    "readline-sync": "^1.4.10"
   },
   "dependencies": {}
 }
