@@ -1,9 +1,37 @@
-// -----------------------------------
+
+// ------------------------------------------ ERRORS
+
+class SchemeError extends Error {
+    constructor(message) {
+        super(message)
+        this.name = this.constructor.name
+        this.message = message
+        Error.captureStackTrace(this, this.constructor)
+    }
+}
+
+class ExistenceError extends SchemeError {
+    constructor(name,type) {
+        super(`${type} "${name}" not found.`)
+        this.data = {name,type}
+    }
+}
+
+class ParserError extends SchemeError {
+    constructor(from) {
+        super(`Cannot handle command "${from}".`)
+        this.data = {from}
+    }
+}
+
+// ------------------------------------------ INNER METHODS
 
 function get_list(statement) {
     let list = handle(statement)
     return list.filter(item=>item!='list')
 }
+
+// ------------------------------------------ SCHEME BASE
 
 let base = {}
 let methods = {
@@ -163,7 +191,7 @@ let methods = {
     }
 }
 
-// -----------------------------------
+// ------------------------------------------ HANDLING METHODS
 
 // -----------------
 
@@ -171,12 +199,15 @@ function handle(statement) {
 
     if(typeof statement === 'string') {
         if(!(statement in base)) {
-            throw 'Base exception: "'+statement+'" not found'
+            throw new ExistenceError(statement,'variable')
         }
         return base[statement]
     } else if (typeof statement === 'object') {
         let meth = statement[0]
         let inner_args = statement.slice(1)
+        if(!(meth in methods)) {
+            throw new ExistenceError(meth,'method')
+        }
         return methods[meth](inner_args)
     }
     return statement
@@ -213,7 +244,7 @@ function interpret(str) {
     return handle(array)
 }
 
-// -----------------------------------
+// ------------------------------------------ EXPORTS
 
 exports.interpret = interpret
 exports.parse = parse
