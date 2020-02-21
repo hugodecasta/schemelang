@@ -27,7 +27,7 @@ test('list car', t => {
 })
 
 test('list cdr', t => {
-    t.deepEqual(scheme("(cdr '(a b c d))"), ['b','c','d'])
+    t.deepEqual(scheme("(cdr '(a b c d))"), ['list','b','c','d'])
 })
 
 test('list cadr', t => {
@@ -36,15 +36,28 @@ test('list cadr', t => {
 
 test('list define', t => {
     scheme('(clear)')
-    t.deepEqual(scheme("(define tot '(+ a b))"), ['+','a','b'])
+    t.deepEqual(scheme("(define tot '(+ a b))"), ['list','+','a','b'])
 })
 
 test('list read', t => {
-    t.deepEqual(scheme("tot"), ['+','a','b'])
+    t.deepEqual(scheme("tot"), ['list','+','a','b'])
 })
 
 test('list eval', t => {
     t.is(scheme("(define a 5)"), 5)
     t.is(scheme("(define b 4)"), 4)
     t.is(scheme("(eval tot)"),9)
+})
+
+test('lambda recurs', t => {
+    scheme('(define rev (lambda (l) (if (null? l) l (append (rev (cdr l)) (list (car l))))))')
+    t.deepEqual(scheme("(rev '(a b c d))"), ['list','d','c','b','a'])
+})
+
+test('cons', t => {
+    scheme('(clear)')
+    scheme("(define l1 '(a b c d))")
+    scheme("(define l2 '(1 2 3 4))")
+    t.deepEqual(scheme("(cons (car l1) (cdr l2))"), ['list','a',2,3,4])
+    t.deepEqual(scheme("(cons '(g h) (cdr l2))"), ['list',['list','g','h'],2,3,4])
 })
