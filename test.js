@@ -120,3 +120,12 @@ test('or', t => {
     t.is(scheme('(or #f #f #f)'),false)
     t.deepEqual(scheme("(or '(a b) #f #f)"),['list','a','b'])
 })
+
+test('string', t => {
+    t.is(scheme('"hello world"'),'hello world')
+    t.is(scheme('(define a "holo")'),'holo')
+    t.is(scheme('a'),'holo')
+    scheme('(define a (lambda (a) (if (> a 5) "is bigger" "is less")))')
+    t.is(scheme('(a 10)'),'is bigger')
+    t.is(scheme('(a 2)'),'is less')
+})

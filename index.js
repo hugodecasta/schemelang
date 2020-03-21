@@ -35,6 +35,13 @@ function get_list(statement) {
     return list.filter(item=>item!='list')
 }
 
+function is_string(statement) {
+    var count = (statement.match(/"/g) || []).length
+    return statement.charAt(0) == '"' 
+        && statement.charAt(statement.length-1) == '"' 
+        && count == 2
+}
+
 // ------------------------------------------ SCHEME BASE
 
 let base = given_base
@@ -232,6 +239,9 @@ let methods = {
 function handle(statement) {
 
     if(typeof statement === 'string') {
+        if(is_string(statement)) {
+            return statement.replace(/"/g,'')
+        }
         if(!(statement in base)) {
             throw new ExistenceError(statement,'variable')
         }
@@ -252,6 +262,9 @@ function handle(statement) {
 function parse(str) {
 
     let replacer = str
+        .replace(/"(.*?)"/g,function(_,string){
+            return '___'+string.replace(/\s/g,'__')+'___'
+        })
         .replace(/(\#t)/g,'true')
         .replace(/(\#f)/g,'false')
         .replace(/\'\(\)/g,'(abslist)')
@@ -265,6 +278,9 @@ function parse(str) {
             } catch(e) {
                 return '"'+match+'"'
             }
+        })
+        .replace(/"___(.*?)___"/g,function(_,string) {
+            return '"\\"'+string.replace(/__/g,' ')+'\\""'
         })
 
     try {
