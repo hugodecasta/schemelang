@@ -122,10 +122,15 @@ test('or', t => {
 })
 
 test('string', t => {
-    t.is(scheme('"hello world"'),'hello world')
-    t.is(scheme('(define a "holo")'),'holo')
-    t.is(scheme('a'),'holo')
+    t.is(scheme('"hello world"'),'"hello world"')
+    t.is(scheme('(define a "holo")'),'"holo"')
+    t.is(scheme('a'),'"holo"')
     scheme('(define a (lambda (a) (if (> a 5) "is bigger" "is less")))')
-    t.is(scheme('(a 10)'),'is bigger')
-    t.is(scheme('(a 2)'),'is less')
+    t.is(scheme('(a 10)'),'"is bigger"')
+    t.is(scheme('(a 2)'),'"is less"')
+})
+
+test('string in list', t => {
+    scheme("(define a '(define a \"hello world\"))")
+    t.deepEqual(scheme('a'), ['list','define','a','"hello world"'])
 })

@@ -36,6 +36,9 @@ function get_list(statement) {
 }
 
 function is_string(statement) {
+    if(typeof statement == 'object') {
+        return false
+    }
     var count = (statement.match(/"/g) || []).length
     return statement.charAt(0) == '"' 
         && statement.charAt(statement.length-1) == '"' 
@@ -61,6 +64,9 @@ let methods = {
         while(typeof value == 'object' || typeof value == 'string') {
             if(typeof value == 'object') {
                 value = value.filter(item=>item != 'list')
+            }
+            if(is_string(value)) {
+                return value
             }
             value = handle(value)
         }
@@ -240,7 +246,7 @@ function handle(statement) {
 
     if(typeof statement === 'string') {
         if(is_string(statement)) {
-            return statement.replace(/"/g,'')
+            return statement
         }
         if(!(statement in base)) {
             throw new ExistenceError(statement,'variable')
@@ -261,9 +267,15 @@ function handle(statement) {
 
 function parse(str) {
 
+    let str_next_index = 0
+    let strs = {}
+
     let replacer = str
         .replace(/"(.*?)"/g,function(_,string){
-            return '___'+string.replace(/\s/g,'__')+'___'
+            let index = str_next_index
+            str_next_index++
+            strs[index] = string
+            return '#'+index+'#'
         })
         .replace(/(\#t)/g,'true')
         .replace(/(\#f)/g,'false')
@@ -279,8 +291,8 @@ function parse(str) {
                 return '"'+match+'"'
             }
         })
-        .replace(/"___(.*?)___"/g,function(_,string) {
-            return '"\\"'+string.replace(/__/g,' ')+'\\""'
+        .replace(/#(.*?)#/g,function(_,index) {
+            return '"\\"'+strs[index]+'\\""'
         })
 
     try {
